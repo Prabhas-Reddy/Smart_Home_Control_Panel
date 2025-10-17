@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+.dashboard {
+  text-align: center;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.greeting {
+  font-size: 2em;
+  font-weight: 700;
+  color: #f5f5f5;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.weather {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: #dcdcdc;
+}
+
+.rooms {
+  display: flex;
+  justify-content: center; /* center the room cards */
+  align-items: center;
+  flex-wrap: wrap; /* wrap if too many rooms */
+  padding: 10px;
+  gap: 15px;
+}
+
+.room-card {
+  flex: 0 0 auto;
+  min-width: 160px;
+  padding: 15px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+}
+
+.room-card.active {
+  border: 2px solid #00f0ff;
+  background: rgba(0,255,255,0.1);
+}
+
+.rooms-count {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #a0e7e5;
+}
+
+.devices {
+  display: flex; /* change from grid to flex for perfect centering */
+  justify-content: center; /* center device cards */
+  flex-wrap: wrap; /* wrap cards to next line */
+  gap: 20px;
+  padding: 20px;
+}
+
+.device-card {
+  background: rgba(255,255,255,0.08);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.device-card.on {
+  background: rgba(0,255,150,0.2);
+  color: #000;
+}
+
+.device-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+}
+
+.toggle-btn {
+  background: linear-gradient(45deg, #00f0ff, #007bff);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.toggle-btn.off {
+  background: linear-gradient(45deg, #777, #444);
+}

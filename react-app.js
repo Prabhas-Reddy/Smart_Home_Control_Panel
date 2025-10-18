@@ -1,11 +1,21 @@
 const { useState, useEffect } = React;
 
 function SmartHomeApp() {
-  const [rooms, setRooms] = useState(mockRooms);
+  const initializeDevices = () => {
+    // Set all devices to OFF initially
+    const offDevices = {};
+    Object.keys(mockDevices).forEach((roomId) => {
+      offDevices[roomId] = mockDevices[roomId].map((d) => ({ ...d, on: false }));
+    });
+    return offDevices;
+  };
+
+  const [rooms] = useState(mockRooms);
+  const [devicesData, setDevicesData] = useState(initializeDevices());
   const [selectedRoom, setSelectedRoom] = useState(mockRooms[0].id);
-  const [devices, setDevices] = useState(mockDevices[mockRooms[0].id]);
+  const [devices, setDevices] = useState(initializeDevices()[mockRooms[0].id]);
   const [weather, setWeather] = useState(null);
-  const [greeting, setGreeting] = useState(getGreeting());
+  const [greeting] = useState(getGreeting());
 
   useEffect(() => { fetchWeather(); }, []);
 
@@ -23,15 +33,21 @@ function SmartHomeApp() {
 
   const handleRoomSelect = (roomId) => {
     setSelectedRoom(roomId);
-    setDevices([...mockDevices[roomId]]);
+    setDevices([...devicesData[roomId]]);
   };
 
   const toggleDevice = (id) => {
-    setDevices(devices.map(d => d.id === id ? { ...d, on: !d.on } : d));
+    const updatedDevices = devices.map((d) =>
+      d.id === id ? { ...d, on: !d.on } : d
+    );
+
+    const updatedData = { ...devicesData, [selectedRoom]: updatedDevices };
+    setDevices(updatedDevices);
+    setDevicesData(updatedData);
   };
 
   const countActive = (roomId) => {
-    return mockDevices[roomId].filter(d => d.on).length;
+    return devicesData[roomId]?.filter((d) => d.on).length || 0;
   };
 
   return (
@@ -44,7 +60,7 @@ function SmartHomeApp() {
       </div>
 
       <div className="rooms">
-        {rooms.map(room => (
+        {rooms.map((room) => (
           <div
             key={room.id}
             className={`room-card ${selectedRoom === room.id ? "active" : ""}`}
@@ -53,15 +69,18 @@ function SmartHomeApp() {
             <div style={{ fontSize: "2em" }}>{room.image}</div>
             <div>{room.name}</div>
             <div className="rooms-count">
-              {mockDevices[room.id].length} Devices, {countActive(room.id)} Active
+              {devicesData[room.id]?.length || 0} Devices, {countActive(room.id)} Active
             </div>
           </div>
         ))}
       </div>
 
       <div className="devices">
-        {devices.map(device => (
-          <div key={device.id} className={`device-card ${device.on ? "on" : ""}`}>
+        {devices.map((device) => (
+          <div
+            key={device.id}
+            className={`device-card ${device.on ? "on" : ""}`}
+          >
             <div style={{ fontSize: "1.5em" }}>🔌</div>
             <h4>{device.name}</h4>
             <button
